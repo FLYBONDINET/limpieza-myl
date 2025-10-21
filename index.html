@@ -1,0 +1,81 @@
+<?!= include("views/partials/head"); ?>
+<body class="bg-gray">
+  <div class="container">
+    <header class="header">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Flybondi_logo.svg/2560px-Flybondi_logo.svg.png" class="logo" alt="Flybondi">
+      <h1>Formulario de Limpieza – Etapa 1</h1>
+    </header>
+
+    <form id="form-1" class="card" onsubmit="return false;">
+      <div class="grid">
+        <label>Fecha
+          <input type="date" id="fecha" />
+        </label>
+
+        <label>Matrícula
+          <select id="matricula"></select>
+        </label>
+
+        <label>Posición aeronave
+          <input type="text" id="posicion" placeholder="Ej: 11, 12B, etc." />
+        </label>
+
+        <label>Nro de vuelo
+          <input type="number" id="nroVuelo" placeholder="Ej: 5240" />
+        </label>
+
+        <label>Tipo de limpieza
+          <select id="tipoLimpieza"></select>
+        </label>
+
+        <label>Hora inicio
+          <div class="time-row">
+            <input type="time" id="horaInicio" />
+            <button class="btn ghost" type="button" onclick="setNow('horaInicio')">Ahora</button>
+          </div>
+        </label>
+
+        <label>Hora fin
+          <div class="time-row">
+            <input type="time" id="horaFin" />
+            <button class="btn ghost" type="button" onclick="setNow('horaFin')">Ahora</button>
+          </div>
+        </label>
+
+        <label>Responsable (Nombre y apellido)
+          <input type="text" id="responsableNombre" />
+        </label>
+
+        <label>Legajo responsable
+          <input type="text" id="responsableLegajo" />
+        </label>
+
+        <label class="col-span">Observaciones
+          <textarea id="observaciones" rows="3" placeholder="Notas adicionales"></textarea>
+        </label>
+
+        <label class="col-span">Adjuntar archivos (fotos, videos, etc.)
+          <input type="file" id="files" multiple />
+        </label>
+
+        <div class="col-span">
+          <p>Firma responsable (táctil):</p>
+          <canvas id="firmaCanvas" width="600" height="150" class="sig"></canvas>
+          <div class="sig-actions">
+            <button class="btn ghost" type="button" onclick="clearCanvas()">Borrar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="enviarBtn" onclick="enviarEtapa1()">Enviar formulario</button>
+      </div>
+      <div id="msg" class="msg"></div>
+    </form>
+  </div>
+
+  <?!= include("views/partials/scripts"); ?>
+  <script src="views/js/common.js"></script>
+  <script src="views/js/form.js"></script>
+</body>
+</html>

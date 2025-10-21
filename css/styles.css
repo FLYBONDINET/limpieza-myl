@@ -1,0 +1,37 @@
+:root{
+  --fb-yellow:#FFD200;
+  --fb-black:#000;
+  --fb-gray:#F6F6F6;
+  --border:#E5E5E5;
+}
+*{box-sizing:border-box;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+body.bg-gray{background:var(--fb-gray);margin:0;color:#111}
+.container{max-width:980px;margin:24px auto;padding:0 16px}
+.header{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.logo{height:36px}
+.card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid .col-span{grid-column:1 / -1}
+label{display:flex;flex-direction:column;gap:6px;font-weight:600}
+input,select,textarea{border:1px solid var(--border);border-radius:10px;padding:10px;font-size:14px}
+.time-row{display:flex;gap:8px;align-items:center}
+.btn{background:var(--fb-yellow);border:none;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer}
+.btn.ghost{background:#fff;border:1px solid var(--border);}
+.actions{display:flex;justify-content:flex-end;margin-top:8px}
+.msg{margin-top:10px;font-size:14px}
+.sig{border:1px dashed #bbb;border-radius:8px;background:#fff;touch-action:none}
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;margin-bottom:8px}
+.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:12px}
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px;border-bottom:1px solid var(--border);text-align:left;font-size:14px}
+th{background:#fafafa}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center}
+.modal.hidden{display:none}
+.modal-content{width:min(920px,96vw);background:#fff;border-radius:16px;border:1px solid var(--border);box-shadow:0 10px 30px rgba(0,0,0,.18);max-height:92vh;overflow:auto}
+.modal-header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border)}
+.modal-body{padding:16px}
+.detalle p{margin:4px 0}
+@media (max-width:720px){
+  .grid{grid-template-columns:1fr}
+  .logo{height:28px}
+}
