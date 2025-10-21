@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Etapa 2 — Recepción JC</title>
+  <link rel="stylesheet" href="assets/css/styles.css"/>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/app.js" defer></script>
+</head>
+<body>
+<header>
+  <img src="assets/logo.svg" alt="flybondi"/>
+  <h1>Etapa 2 — Recepción JC</h1>
+</header>
+<div class="container">
+
+  <div class="card grid cols-3">
+    <div>
+      <label>Filtrar por fecha (dd-mm-aaaa)</label>
+      <input id="fFecha" placeholder="21-10-2025" oninput="applyFilter()"/>
+    </div>
+    <div>
+      <label>Filtrar por matrícula</label>
+      <input id="fMat" placeholder="LV-" oninput="applyFilter()"/>
+    </div>
+    <div style="align-self:end">
+      <button class="button secondary" onclick="applyFilter()">Aplicar</button>
+    </div>
+  </div>
+  <div class="card">
+    <table class="table">
+      <thead><tr><th>Fecha</th><th>Matrícula</th><th>Limpieza</th><th>Estado</th><th></th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <script>
+    const mock = [
+      {{id:"REC001", fecha:"21-10-2025", matricula:"LV-HKS", tipo:"Limpieza profunda", estado:"PENDIENTE"}},
+      {{id:"REC002", fecha:"21-10-2025", matricula:"LY-VEA", tipo:"Limpieza superficial", estado:"COMPLETADO"}}
+    ];
+    function render(rows){{ 
+      const tbody=document.getElementById('tbody'); tbody.innerHTML='';
+      rows.forEach(r=>{{
+        const tr=document.createElement('tr');
+        tr.innerHTML = `<td>${{r.fecha}}</td><td>${{r.matricula}}</td><td>${{r.tipo}}</td>
+          <td><span class="badge">${{r.estado}}</span></td>
+          <td><a class="button" href="recepcion_form.html#${{r.id}}">Ver limpieza</a></td>`;
+        tbody.appendChild(tr);
+      }})
+    }}
+    function applyFilter(){{
+      const f=document.getElementById('fFecha').value;
+      const m=document.getElementById('fMat').value.toLowerCase();
+      render(mock.filter(r=>(!f || r.fecha===f) && (!m || r.matricula.toLowerCase().includes(m))))
+    }}
+    window.addEventListener('load',()=>{{render(mock)}});
+  </script>
+
+</div>
+</body>
+</html>

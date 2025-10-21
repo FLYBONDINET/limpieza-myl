@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Recepción — Jefe de Cabina</title>
+  <link rel="stylesheet" href="assets/css/styles.css"/>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/app.js" defer></script>
+</head>
+<body>
+<header>
+  <img src="assets/logo.svg" alt="flybondi"/>
+  <h1>Recepción — Jefe de Cabina</h1>
+</header>
+<div class="container">
+
+  <div class="card">
+    <h3>Datos de la limpieza (solo lectura)</h3>
+    <pre id="ro" style="white-space:pre-wrap;background:#f9f9f9;padding:12px;border-radius:10px;"></pre>
+  </div>
+  <form class="card grid cols-2" data-bind-endpoint onsubmit="captureSign()">
+    <div>
+      <label>Fecha</label>
+      <input type="text" id="rec_fecha" value="21-10-2025"/>
+    </div>
+    <div>
+      <label>Recepción aeronave limpia (hh:mm)</label>
+      <div class="flex">
+        <input type="time" id="rec_hora"/>
+        <button type="button" class="button secondary" onclick="nowTime('rec_hora')">Ahora</button>
+      </div>
+    </div>
+    <div>
+      <label>Nombre y apellido (JC)</label>
+      <input type="text" placeholder="Nombre Apellido"/>
+    </div>
+    <div>
+      <label>Legajo (JC)</label>
+      <input type="text" placeholder="12345"/>
+    </div>
+    <div>
+      <label>Estado de limpieza</label>
+      <select>
+        <option>Conforme</option>
+        <option>No conforme</option>
+      </select>
+    </div>
+    <div class="grid cols-1">
+      <label>Observaciones</label>
+      <textarea rows="3"></textarea>
+    </div>
+    <div class="grid cols-1">
+      <label>Adjuntos (fotos/video/otros)</label>
+      <input type="file" multiple/>
+    </div>
+    <div class="grid cols-1">
+      <label>Firma Jefe de Cabina (táctil)</label>
+      <canvas id="sign" class="sign-pad" width="600" height="200"></canvas>
+      <div class="flex">
+        <button type="button" class="button secondary" onclick="clearSign()">Borrar</button>
+      </div>
+      <input type="hidden" id="signatureData" name="signatureData"/>
+    </div>
+    <div>
+      <button class="button" type="submit">Enviar recepción</button>
+    </div>
+  </form>
+  <script>
+    function nowTime(id){{ const el=document.getElementById(id); const d=new Date(); el.value = d.toTimeString().slice(0,5); }}
+    function clearSign(){{ const c=document.getElementById('sign'); const ctx=c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height); }}
+    function captureSign(){{ const c=document.getElementById('sign'); document.getElementById('signatureData').value = c.toDataURL('image/png'); }}
+    (function(){{
+      const id = location.hash.replace('#','') || 'REC001';
+      const detalle = {{ id, fecha:'21-10-2025', matricula:'LV-HKS', tipo:'Limpieza profunda', estado:'PENDIENTE' }};
+      document.getElementById('ro').textContent = JSON.stringify(detalle,null,2);
+      const c=document.getElementById('sign'); const ctx=c.getContext('2d'); let drawing=false;
+      const rect=()=>c.getBoundingClientRect();
+      const getPos=(e)=>{{const r=rect(); const t=e.touches?e.touches[0]:e; return {{x:t.clientX-r.left,y:t.clientY-r.top}};}};
+      const start=(e)=>{{drawing=true; const p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y);}};
+      const move=(e)=>{{if(!drawing)return; const p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke();}};
+      const end=()=>{{drawing=false;}};
+      c.addEventListener('mousedown',start); c.addEventListener('mousemove',move); c.addEventListener('mouseup',end);
+      c.addEventListener('touchstart',e=>{{e.preventDefault();start(e);}},{{passive:false}});
+      c.addEventListener('touchmove',e=>{{e.preventDefault();move(e);}},{{passive:false}});
+      c.addEventListener('touchend',end);
+    }})();
+  </script>
+
+</div>
+</body>
+</html>

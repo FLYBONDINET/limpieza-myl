@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Etapa 1 — Limpieza</title>
+  <link rel="stylesheet" href="assets/css/styles.css"/>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/app.js" defer></script>
+</head>
+<body>
+<header>
+  <img src="assets/logo.svg" alt="flybondi"/>
+  <h1>Etapa 1 — Limpieza</h1>
+</header>
+<div class="container">
+
+  <form class="card grid cols-2" data-bind-endpoint onsubmit="captureSign()">
+    <div>
+      <label>Fecha</label>
+      <input type="date" value="2025-10-21"/>
+    </div>
+    <div>
+      <label>Matrícula</label>
+      <select>
+        <option>LV-HKS</option>
+        <option>LV-HFR</option>
+        <option>LV-KAZ</option>
+        <option>LY-VEA</option>
+        <option>LY-VEH</option>
+      </select>
+    </div>
+    <div>
+      <label>Posición de aeronave</label>
+      <input type="text" placeholder="Puerta 12 / Remoto 4"/>
+    </div>
+    <div>
+      <label>N° de vuelo</label>
+      <input type="number" placeholder="5240"/>
+    </div>
+    <div>
+      <label>Tipo de limpieza</label>
+      <select>
+        <option>Limpieza superficial</option>
+        <option>Limpieza profunda</option>
+        <option>Limpieza profunda plus</option>
+      </select>
+    </div>
+    <div class="flex">
+      <div style="flex:1">
+        <label>Hora de inicio</label>
+        <div class="flex">
+          <input id="hinicio" type="time" />
+          <button type="button" class="button secondary" onclick="nowTime('hinicio')">Ahora</button>
+        </div>
+      </div>
+      <div style="flex:1">
+        <label>Hora de fin</label>
+        <div class="flex">
+          <input id="hfin" type="time" />
+          <button type="button" class="button secondary" onclick="nowTime('hfin')">Ahora</button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <label>Nombre responsable</label>
+      <input type="text" placeholder="Nombre y Apellido"/>
+    </div>
+    <div>
+      <label>Legajo responsable</label>
+      <input type="text" placeholder="12345"/>
+    </div>
+    <div class="grid cols-1">
+      <label>Observaciones</label>
+      <textarea rows="3" placeholder="Detalle adicional..."></textarea>
+    </div>
+    <div class="grid cols-1">
+      <label>Firma responsable (táctil)</label>
+      <canvas id="sign" class="sign-pad" width="600" height="200"></canvas>
+      <div class="flex">
+        <button type="button" class="button secondary" onclick="clearSign()">Borrar</button>
+      </div>
+      <input type="hidden" id="signatureData" name="signatureData"/>
+    </div>
+    <div class="grid cols-1">
+      <label>Adjuntos (fotos / videos / otros)</label>
+      <input type="file" multiple/>
+    </div>
+    <div>
+      <button class="button" type="submit">Enviar</button>
+    </div>
+  </form>
+  <script>
+    function nowTime(id){ const el=document.getElementById(id); const d=new Date(); el.value = d.toTimeString().slice(0,5);}
+    function clearSign(){ const c=document.getElementById('sign'); const ctx=c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height);}
+    function captureSign(){ const c=document.getElementById('sign'); document.getElementById('signatureData').value = c.toDataURL('image/png'); }
+    (function(){
+      const c=document.getElementById('sign'); const ctx=c.getContext('2d'); let drawing=false;
+      const rect=()=>c.getBoundingClientRect();
+      const getPos=(e)=>{const r=rect(); const t=e.touches?e.touches[0]:e; return {x:t.clientX-r.left,y:t.clientY-r.top};};
+      const start=(e)=>{drawing=true; const p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y);};
+      const move=(e)=>{if(!drawing)return; const p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke();};
+      const end=()=>{drawing=false;};
+      c.addEventListener('mousedown',start); c.addEventListener('mousemove',move); c.addEventListener('mouseup',end);
+      c.addEventListener('touchstart',e=>{e.preventDefault();start(e);},{passive:false});
+      c.addEventListener('touchmove',e=>{e.preventDefault();move(e);},{passive:false});
+      c.addEventListener('touchend',end);
+    })();
+  </script>
+
+</div>
+</body>
+</html>

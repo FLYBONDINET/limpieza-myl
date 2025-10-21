@@ -1,81 +1,33 @@
-<?!= include("views/partials/head"); ?>
-<body class="bg-gray">
-  <div class="container">
-    <header class="header">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Flybondi_logo.svg/2560px-Flybondi_logo.svg.png" class="logo" alt="Flybondi">
-      <h1>Formulario de Limpieza – Etapa 1</h1>
-    </header>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Flybondi • Limpieza</title>
+  <link rel="stylesheet" href="assets/css/styles.css"/>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/app.js" defer></script>
+</head>
+<body>
+<header>
+  <img src="assets/logo.svg" alt="flybondi"/>
+  <h1>Flybondi • Limpieza</h1>
+</header>
+<div class="container">
 
-    <form id="form-1" class="card" onsubmit="return false;">
-      <div class="grid">
-        <label>Fecha
-          <input type="date" id="fecha" />
-        </label>
-
-        <label>Matrícula
-          <select id="matricula"></select>
-        </label>
-
-        <label>Posición aeronave
-          <input type="text" id="posicion" placeholder="Ej: 11, 12B, etc." />
-        </label>
-
-        <label>Nro de vuelo
-          <input type="number" id="nroVuelo" placeholder="Ej: 5240" />
-        </label>
-
-        <label>Tipo de limpieza
-          <select id="tipoLimpieza"></select>
-        </label>
-
-        <label>Hora inicio
-          <div class="time-row">
-            <input type="time" id="horaInicio" />
-            <button class="btn ghost" type="button" onclick="setNow('horaInicio')">Ahora</button>
-          </div>
-        </label>
-
-        <label>Hora fin
-          <div class="time-row">
-            <input type="time" id="horaFin" />
-            <button class="btn ghost" type="button" onclick="setNow('horaFin')">Ahora</button>
-          </div>
-        </label>
-
-        <label>Responsable (Nombre y apellido)
-          <input type="text" id="responsableNombre" />
-        </label>
-
-        <label>Legajo responsable
-          <input type="text" id="responsableLegajo" />
-        </label>
-
-        <label class="col-span">Observaciones
-          <textarea id="observaciones" rows="3" placeholder="Notas adicionales"></textarea>
-        </label>
-
-        <label class="col-span">Adjuntar archivos (fotos, videos, etc.)
-          <input type="file" id="files" multiple />
-        </label>
-
-        <div class="col-span">
-          <p>Firma responsable (táctil):</p>
-          <canvas id="firmaCanvas" width="600" height="150" class="sig"></canvas>
-          <div class="sig-actions">
-            <button class="btn ghost" type="button" onclick="clearCanvas()">Borrar</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="actions">
-        <button class="btn" id="enviarBtn" onclick="enviarEtapa1()">Enviar formulario</button>
-      </div>
-      <div id="msg" class="msg"></div>
-    </form>
+  <div class="card grid cols-2">
+    <div>
+      <h2>Etapa 1 — Responsable de Limpieza</h2>
+      <p class="muted">Completar y enviar limpieza (con firma y adjuntos).</p>
+      <a class="button" href="limpieza.html">Abrir formulario</a>
+    </div>
+    <div>
+      <h2>Etapa 2 — Recepción Jefe de Cabina</h2>
+      <p class="muted">Filtrar, buscar y aceptar/no aceptar limpieza.</p>
+      <a class="button" href="recepcion.html">Abrir recepción</a>
+    </div>
   </div>
 
-  <?!= include("views/partials/scripts"); ?>
-  <script src="views/js/common.js"></script>
-  <script src="views/js/form.js"></script>
+</div>
 </body>
 </html>
